@@ -57,6 +57,12 @@ function WorkList({
   onRefresh,
   servicesManager,
 }: withAppTypes) {
+
+  //Redirección al portal del paciente para que no se pueda acceder a la lista completa de estudios
+  window.location.replace("https://miportal.cemenurnk.org.ar")
+
+  return null
+
   const { hotkeyDefinitions, hotkeyDefaults } = hotkeysManager;
   const { show, hide } = useModal();
   const { t } = useTranslation();
@@ -533,7 +539,7 @@ function WorkList({
         WhiteLabeling={appConfig.whiteLabeling}
         showPatientInfo={PatientInfoVisibility.DISABLED}
       />
-      {/*<InvestigationalUseDialog dialogConfiguration={appConfig?.investigationalUseDialog} />*/}
+      <InvestigationalUseDialog dialogConfiguration={appConfig?.investigationalUseDialog} />
       <div className="ohif-scrollbar ohif-scrollbar-stable-gutter flex grow flex-col overflow-y-auto sm:px-5">
         <StudyListFilter
           numOfStudies={pageNumber * resultsPerPage > 100 ? 101 : numOfStudies}
