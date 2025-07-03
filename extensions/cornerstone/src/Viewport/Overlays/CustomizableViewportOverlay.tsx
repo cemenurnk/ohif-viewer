@@ -236,19 +236,21 @@ function CustomizableViewportOverlay({
     [_renderOverlayItem]
   );
 
+  /*
   const studyDateItem = {
     id: 'StudyDate',
     customizationType: 'ohif.overlayItem',
-    label: '',
+    label: 'Fecha del Estudio: ',
     title: 'Study date',
     condition: ({ instance }) => instance && instance.StudyDate,
     contentF: ({ instance, formatters: { formatDate } }) => formatDate(instance.StudyDate),
   };
+  */
 
   const seriesDescriptionItem = {
     id: 'SeriesDescription',
     customizationType: 'ohif.overlayItem',
-    label: '',
+    label: 'Serie: ',
     title: 'Series description',
     attribute: 'SeriesDescription',
     condition: ({ instance }) => {
@@ -256,22 +258,151 @@ function CustomizableViewportOverlay({
     },
   };
 
+  // Agregado por el Cemenurnk
+  // -------------------------
+  const patientIdItem = {
+    id: 'PatientID',
+    customizationType: 'ohif.overlayItem',
+    label: 'Id: ',
+    title: 'Patient id',
+    //attribute: 'PatientID',
+    condition: ({ instance }) => {
+      return instance && instance.PatientID;
+    },
+    contentF: ({ instance }) => `${instance.PatientID} ${instance.PatientSex}`
+  }
+
+  const patientNameItem = {
+    id: 'PatientName',
+    customizationType: 'ohif.overlayItem',
+    label: 'Paciente: ',
+    title: 'Patient name',
+    //attribute: 'PatientName',
+    condition: ({ instance }) => {
+      return instance && instance.PatientName;
+    },
+    // Para forzar el renderizado de esta propiedad con el string del nombre del paciente,
+    // no fue posible encontrarlo con la propiedad atribute
+    contentF: ({ instance }) => instance.PatientName.Alphabetic
+  }
+
+  const studyDateTimeItem = {
+    id: 'StudyDateTime',
+    customizationType: 'ohif.overlayItem',
+    label: '',
+    title: 'Study datetime',
+    condition: ({ instance }) => instance && instance.StudyDate,
+    contentF: ({ instance, formatters: { formatDate } }) => {
+
+      const studyDateDigits = instance.StudyDate.split("")
+      const studyTimeDigits = instance.StudyTime.split("")
+
+      return `${studyDateDigits.slice(6).join("")}/${studyDateDigits.slice(4, 6).join("")}/${studyDateDigits.slice(0, 4).join("")} ${studyTimeDigits.slice(0, 2).join("")}:${studyTimeDigits.slice(2, 4).join("")}`
+    },
+  };
+
+  /*
+  const patientAgeItem = {
+    id: 'PatientAge',
+    customizationType: 'ohif.overlayItem',
+    label: 'Edad: ',
+    title: 'Patient age',
+    attribute: 'PatientAge',
+    condition: ({ instance }) => {
+      return instance && instance.PatientAge;
+    },
+  }
+
+  const patientBirthDateItem = {
+    id: 'PatientBirthDate',
+    customizationType: 'ohif.overlayItem',
+    label: 'Fecha de Nacimiento: ',
+    title: 'Patient Birth Date',
+    condition: ({ instance }) => {
+      return instance && instance.PatientBirthDate;
+    },
+    contentF: ({ instance, formatters: { formatDate } }) => formatDate(instance.PatientBirthDate),
+  }
+
+  const patientSexItem = {
+    id: 'PatientSex',
+    customizationType: 'ohif.overlayItem',
+    label: 'Sexo: ',
+    title: 'Patient sex',
+    attribute: 'PatientSex',
+    condition: ({ instance }) => {
+      return instance && instance.PatientSex;
+    },
+  }
+
+  const patientSizeItem = {
+    id: 'PatientSize',
+    customizationType: 'ohif.overlayItem',
+    label: 'Altura(m): ',
+    title: 'Patient size',
+    attribute: 'PatientSize',
+    condition: ({ instance }) => {
+      return instance && instance.PatientSize;
+    },
+  }
+
+  const patientWeightItem = {
+    id: 'PatientWeight',
+    customizationType: 'ohif.overlayItem',
+    label: 'Peso(kg): ',
+    title: 'Patient Weight',
+    attribute: 'PatientWeight',
+    condition: ({ instance }) => {
+      return instance && instance.PatientWeight;
+    },
+  }
+  */
+
+  const spacingBetweenSlicesItem = {
+    id: 'SpacingBetweenSlices',
+    customizationType: 'ohif.overlayItem',
+    label: 'Espacio entre cortes: ',
+    title: 'Spacing Between Slices',
+    //attribute: 'SpacingBetweenSlices',
+    condition: ({ instance }) => {
+      return instance && instance.SpacingBetweenSlices;
+    },
+    contentF: ({ instance }) => `${parseFloat(instance.SpacingBetweenSlices).toFixed(2)} mm`
+  }
+
+  //------------------------------
+
   const topLeftItems = instances
     ? instances
         .map((instance, index) => {
+          //console.log(instance)
           return [
             {
-              ...studyDateItem,
+              ...studyDateTimeItem,
+              instanceIndex: index,
+            },
+                        {
+              ...patientIdItem,
+              instanceIndex: index,
+            },
+            {
+              ...patientNameItem,
               instanceIndex: index,
             },
             {
               ...seriesDescriptionItem,
               instanceIndex: index,
             },
+            {
+              ...spacingBetweenSlicesItem,
+              instanceIndex: index,
+            },
           ];
         })
         .flat()
     : [];
+
+  //console.log(getContent(topLeftCustomization, [...topLeftItems], 'topLeftOverlayItem'))
 
   return (
     <ViewportOverlay
