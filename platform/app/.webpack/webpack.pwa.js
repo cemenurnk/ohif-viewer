@@ -15,6 +15,7 @@ const SRC_DIR = path.join(__dirname, '../src');
 const DIST_DIR = path.join(__dirname, '../dist');
 const PUBLIC_DIR = path.join(__dirname, '../public');
 // ~~ Env Vars
+require('dotenv').config({ path: path.resolve(__dirname, '../../../.env') });
 const HTML_TEMPLATE = process.env.HTML_TEMPLATE || 'index.html';
 const PUBLIC_URL = process.env.PUBLIC_URL || '/';
 const APP_CONFIG = process.env.APP_CONFIG || 'config/default.js';
@@ -99,6 +100,19 @@ module.exports = (env, argv) => {
           {
             from: `${PUBLIC_DIR}/${APP_CONFIG}`,
             to: `${DIST_DIR}/app-config.js`,
+            transform(content) {
+              let text = content.toString();
+              if (process.env.WADO_URI_ROOT) {
+                text = text.replace(/__WADO_URI_ROOT__/g, process.env.WADO_URI_ROOT);
+              }
+              if (process.env.QIDO_ROOT) {
+                text = text.replace(/__QIDO_ROOT__/g, process.env.QIDO_ROOT);
+              }
+              if (process.env.WADO_ROOT) {
+                text = text.replace(/__WADO_ROOT__/g, process.env.WADO_ROOT);
+              }
+              return Buffer.from(text);
+            },
           },
           // Copy Dicom Microscopy Viewer build files
           {
@@ -130,7 +144,7 @@ module.exports = (env, argv) => {
         // Increase the limit to 4mb:
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         // Need to exclude the theme as it is updated independently
-        exclude: [/theme/],
+        exclude: [/theme/, /app-config\.js$/],
         // Cache large files for the manifests to avoid warning messages
         maximumFileSizeToCacheInBytes: 1024 * 1024 * 50,
       }),

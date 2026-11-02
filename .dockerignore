@@ -20,6 +20,7 @@ Dockerfile
 dockerfile
 
 # Misc. Config
+.env
 .git
 .DS_Store
 .gitignore
