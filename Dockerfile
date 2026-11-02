@@ -31,10 +31,10 @@ COPY extensions /usr/src/app/extensions
 COPY modes /usr/src/app/modes
 COPY platform /usr/src/app/platform
 
-# Find and remove non-package.json files
-#RUN find extensions \! -name "package.json" -mindepth 2 -maxdepth 2 -print | xargs rm -rf
-#RUN find modes \! -name "package.json" -mindepth 2 -maxdepth 2 -print | xargs rm -rf
-#RUN find platform \! -name "package.json" -mindepth 2 -maxdepth 2 -print | xargs rm -rf
+# Find and remove non-package.json files so source edits don't invalidate yarn install cache
+RUN find extensions \! -name "package.json" -mindepth 2 -maxdepth 2 -print | xargs rm -rf
+RUN find modes \! -name "package.json" -mindepth 2 -maxdepth 2 -print | xargs rm -rf
+RUN find platform \! -name "package.json" -mindepth 2 -maxdepth 2 -print | xargs rm -rf
 
 # Copy Files
 FROM node:18.16.1-slim as builder
@@ -43,6 +43,9 @@ RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 
 COPY --from=json-copier /usr/src/app .
+
+# Skip downloading the ~190MB Cypress binary during production image build
+ENV CYPRESS_INSTALL_BINARY=0
 
 # Run the install before copying the rest of the files
 RUN yarn config set workspaces-experimental true
