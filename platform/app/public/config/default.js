@@ -2,6 +2,7 @@
 
 const config = {
   routerBasename: '/',
+  portalUrl: '__PORTAL_URL__',
   // whiteLabeling: {},
   extensions: [],
   modes: [],
@@ -44,9 +45,9 @@ const config = {
         // wadoUriRoot: 'https://d33do7qe4w26qo.cloudfront.net/dicomweb',
         // qidoRoot: 'https://d33do7qe4w26qo.cloudfront.net/dicomweb',
         // wadoRoot: 'https://d33do7qe4w26qo.cloudfront.net/dicomweb',
-        wadoUriRoot: 'https://portal.cemenurnk.org.ar/dcm4chee-arc/aets/DCM4CHEE/wado',
-        qidoRoot: 'https://portal.cemenurnk.org.ar/dcm4chee-arc/aets/DCM4CHEE/rs',
-        wadoRoot: 'https://portal.cemenurnk.org.ar/dcm4chee-arc/aets/DCM4CHEE/rs',
+        wadoUriRoot: '__WADO_URI_ROOT__',
+        qidoRoot: '__QIDO_ROOT__',
+        wadoRoot: '__WADO_ROOT__',
         qidoSupportsIncludeField: false,
         imageRendering: 'wadors',
         thumbnailRendering: 'wadors',

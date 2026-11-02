@@ -10,6 +10,33 @@ fi
 if [ -n "$APP_CONFIG" ]
   then
     echo "$APP_CONFIG" > /usr/share/nginx/html/app-config.js
+  elif [ -f /usr/src/app-config.default.js ]
+  then
+    cp /usr/src/app-config.default.js /usr/share/nginx/html/app-config.js
+fi
+
+if [ -n "$WADO_URI_ROOT" ]
+  then
+    echo "Updating wadoUriRoot to: $WADO_URI_ROOT"
+    sed -i -e "s|__WADO_URI_ROOT__|$WADO_URI_ROOT|g" /usr/share/nginx/html/app-config.js
+fi
+
+if [ -n "$QIDO_ROOT" ]
+  then
+    echo "Updating qidoRoot to: $QIDO_ROOT"
+    sed -i -e "s|__QIDO_ROOT__|$QIDO_ROOT|g" /usr/share/nginx/html/app-config.js
+fi
+
+if [ -n "$WADO_ROOT" ]
+  then
+    echo "Updating wadoRoot to: $WADO_ROOT"
+    sed -i -e "s|__WADO_ROOT__|$WADO_ROOT|g" /usr/share/nginx/html/app-config.js
+fi
+
+if [ -n "$PORTAL_URL" ]
+  then
+    echo "Updating portalUrl to: $PORTAL_URL"
+    sed -i -e "s|__PORTAL_URL__|$PORTAL_URL|g" /usr/share/nginx/html/app-config.js
 fi
 
 if [ -n "$CLIENT_ID" ] || [ -n "$HEALTHCARE_API_ENDPOINT" ]
