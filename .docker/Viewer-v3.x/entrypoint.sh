@@ -33,12 +33,6 @@ if [ -n "$WADO_ROOT" ]
     sed -i -e "s|__WADO_ROOT__|$WADO_ROOT|g" /usr/share/nginx/html/app-config.js
 fi
 
-if [ -n "$PORTAL_URL" ]
-  then
-    echo "Updating portalUrl to: $PORTAL_URL"
-    sed -i -e "s|__PORTAL_URL__|$PORTAL_URL|g" /usr/share/nginx/html/app-config.js
-fi
-
 if [ -n "$CLIENT_ID" ] || [ -n "$HEALTHCARE_API_ENDPOINT" ]
   then
     # If CLIENT_ID is specified, use the google.js configuration with the modified ID

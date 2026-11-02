@@ -2,7 +2,6 @@
 
 const config = {
   routerBasename: '/',
-  portalUrl: '__PORTAL_URL__',
   // whiteLabeling: {},
   extensions: [],
   modes: [],

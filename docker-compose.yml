@@ -8,7 +8,6 @@ services:
       - "${PORT:-8081}:${PORT:-8081}"
     environment:
       PORT: ${PORT:-8081}
-      PORTAL_URL: ${PORTAL_URL:-https://portal.example.com}
       WADO_URI_ROOT: ${WADO_URI_ROOT:-https://pacs.example.com/dcm4chee-arc/aets/DCM4CHEE/wado}
       QIDO_ROOT: ${QIDO_ROOT:-https://pacs.example.com/dcm4chee-arc/aets/DCM4CHEE/rs}
       WADO_ROOT: ${WADO_ROOT:-https://pacs.example.com/dcm4chee-arc/aets/DCM4CHEE/rs}

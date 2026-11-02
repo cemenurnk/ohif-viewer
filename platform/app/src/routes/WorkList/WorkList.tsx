@@ -58,10 +58,10 @@ function WorkList({
   servicesManager,
 }: withAppTypes) {
 
-  //Redirección al portal del paciente para que no se pueda acceder a la lista completa de estudios
-  window.location.replace((window as any).config?.portalUrl)
 
-  return null
+
+
+
 
   const { hotkeyDefinitions, hotkeyDefaults } = hotkeysManager;
   const { show, hide } = useModal();
