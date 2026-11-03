@@ -13,6 +13,7 @@ services:
       WADO_ROOT: ${WADO_ROOT:-/dcm4chee-arc/aets/DCM4CHEE/rs}
     volumes:
       - ./.docker/Viewer-v3.x/default.conf.template:/usr/src/default.conf.template:ro
+      - ./platform/app/public/config/default.js:/usr/src/app-config.default.js:ro
     networks:
       - pacs-net
     restart: unless-stopped
