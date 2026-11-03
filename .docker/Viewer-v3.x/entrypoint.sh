@@ -9,32 +9,36 @@ fi
 
 if [ -n "$APP_CONFIG" ]
   then
-    echo "$APP_CONFIG" > /usr/share/nginx/html/app-config.js
+    echo "$APP_CONFIG" > /tmp/app-config.js
   elif [ -f /usr/src/app-config.default.js ]
   then
-    cp /usr/src/app-config.default.js /usr/share/nginx/html/app-config.js
+    cp /usr/src/app-config.default.js /tmp/app-config.js
+  else
+    cp /usr/share/nginx/html/app-config.js /tmp/app-config.js
 fi
 
 if [ -n "$WADO_URI_ROOT" ]
   then
     WADO_URI_ROOT=$(printf "%s" "$WADO_URI_ROOT" | tr -d '\r')
     echo "Updating wadoUriRoot to: $WADO_URI_ROOT"
-    sed -i -e "s|__WADO_URI_ROOT__|$WADO_URI_ROOT|g" /usr/share/nginx/html/app-config.js
+    sed -i -e "s|__WADO_URI_ROOT__|$WADO_URI_ROOT|g" /tmp/app-config.js
 fi
 
 if [ -n "$QIDO_ROOT" ]
   then
     QIDO_ROOT=$(printf "%s" "$QIDO_ROOT" | tr -d '\r')
     echo "Updating qidoRoot to: $QIDO_ROOT"
-    sed -i -e "s|__QIDO_ROOT__|$QIDO_ROOT|g" /usr/share/nginx/html/app-config.js
+    sed -i -e "s|__QIDO_ROOT__|$QIDO_ROOT|g" /tmp/app-config.js
 fi
 
 if [ -n "$WADO_ROOT" ]
   then
     WADO_ROOT=$(printf "%s" "$WADO_ROOT" | tr -d '\r')
     echo "Updating wadoRoot to: $WADO_ROOT"
-    sed -i -e "s|__WADO_ROOT__|$WADO_ROOT|g" /usr/share/nginx/html/app-config.js
+    sed -i -e "s|__WADO_ROOT__|$WADO_ROOT|g" /tmp/app-config.js
 fi
+
+cat /tmp/app-config.js > /usr/share/nginx/html/app-config.js
 
 if [ -n "$CLIENT_ID" ] || [ -n "$HEALTHCARE_API_ENDPOINT" ]
   then

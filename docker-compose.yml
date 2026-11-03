@@ -14,6 +14,7 @@ services:
     volumes:
       - ./.docker/Viewer-v3.x/default.conf.template:/usr/src/default.conf.template:ro
       - ./platform/app/public/config/default.js:/usr/src/app-config.default.js:ro
+      - ./.docker/Viewer-v3.x/entrypoint.sh:/usr/src/entrypoint.sh:ro
     networks:
       - pacs-net
     restart: unless-stopped

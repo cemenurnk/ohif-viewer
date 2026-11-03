@@ -78,7 +78,7 @@ COPY --chown=nginx:nginx --from=builder /usr/src/app/platform/app/dist /usr/shar
 # and keep a default backup copy for idempotent container restarts.
 USER root
 RUN cp /usr/share/nginx/html/app-config.js /usr/src/app-config.default.js && \
-    chown nginx:nginx /usr/src/app-config.default.js && \
+    chown -R nginx:nginx /usr/share/nginx/html /usr/src/app-config.default.js && \
     chmod 666 /usr/share/nginx/html/app-config.js /usr/src/app-config.default.js
 USER nginx
 ENTRYPOINT ["/usr/src/entrypoint.sh"]
